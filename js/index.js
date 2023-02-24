@@ -255,6 +255,15 @@
   ];
   const listAttractionsEl = document.querySelector('.list-attractions');
   const tablesPriceEl = document.querySelector('.tables-price');
+
+  const intervalDelay = 15000;
+  const startAnimation = 500;
+  const endAnimation = 14000;
+
+  setTimeout(() => {
+    tablesPriceEl.classList.add('tables-price-show');
+  }, startAnimation);
+
   let startCard = 0;
   let endCard = 3;
   let startIndex = 0;
@@ -294,6 +303,9 @@
   function createCardAttraction(attraction) {
     const cardEl = document.createElement('li');
     cardEl.classList.add('item-attraction');
+    setTimeout(() => {
+      cardEl.classList.add('item-attraction-show');
+    }, startAnimation);
 
     const imgAttractEl = document.createElement('img');
     imgAttractEl.classList.add('item-attraction-img');
@@ -321,6 +333,9 @@
     createListIcons(containerEl, attraction);
     cardEl.append(containerEl);
     listAttractionsEl.append(cardEl);
+    setTimeout(() => {
+      cardEl.classList.add('item-attraction-hide');
+    }, endAnimation);
   }
 
   function createListIcons(containerEl, attraction) {
@@ -356,6 +371,10 @@
 
     const tableEl = document.createElement('table');
     tableEl.classList.add('table-price');
+
+    setTimeout(() => {
+      tableEl.classList.add('table-price-show');
+    }, startAnimation);
 
     const rowHeader = document.createElement('tr');
     rowHeader.classList.add('table-price-tr-header');
@@ -402,6 +421,9 @@
     startIndex = endIndex;
     endIndex += 5;
     tablesPriceEl.append(tableEl);
+    setTimeout(() => {
+      tableEl.classList.add('table-price-hide');
+    }, endAnimation);
   }
 
   function addRow(tableEl, row, attraction) {
@@ -423,17 +445,35 @@
     tableEl.append(row);
   }
 
+  function showTables() {
+    setTimeout(() => {
+      tablesPriceEl.classList.remove('tables-price-hide');
+      tablesPriceEl.classList.add('tables-price-show');
+    }, startAnimation);
+  }
+
+  function hideTables() {
+    setTimeout(() => {
+      tablesPriceEl.classList.add('tables-price-hide');
+      tablesPriceEl.classList.remove('tables-price-show');
+    }, endAnimation);
+  }
+
   function start() {
     createCards();
+    showTables();
     createTable();
     createVerticalLine();
     createTable();
+    hideTables();
     setInterval(() => {
       createCards();
       tablesPriceEl.innerHTML = '';
+      showTables();
       createTable();
       createVerticalLine();
       createTable();
-    }, 15000);
+      hideTables();
+    }, intervalDelay);
   }
 })();
