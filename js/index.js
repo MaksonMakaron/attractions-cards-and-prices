@@ -260,34 +260,37 @@
   const startAnimation = 500;
   const endAnimation = 14000;
 
+  const numberCardOnPage = 3;
+  const numberRowInTable = 5;
+
   setTimeout(() => {
     tablesPriceEl.classList.add('tables-price-show');
   }, startAnimation);
 
-  let startCard = 0;
-  let endCard = 3;
-  let startIndex = 0;
-  let endIndex = 5;
+  let startIndexCard = 0;
+  let endIndexCard = numberCardOnPage;
+  let startRowIndex = 0;
+  let endRowIndex = numberRowInTable;
   start();
 
   function createCards() {
     listAttractionsEl.innerHTML = '';
     let countCardOnPage = 0;
-    if (endCard > attractions.length) {
-      endCard = attractions.length;
+    if (endIndexCard > attractions.length) {
+      endIndexCard = attractions.length;
     }
-    for (let i = startCard; i < endCard; i++) {
-      if (attractions.length - 1 === i && countCardOnPage != 3) {
+    for (let i = startIndexCard; i < endIndexCard; i++) {
+      if (attractions.length - 1 === i && countCardOnPage != numberCardOnPage) {
         const attraction = attractions[i];
         countCardOnPage++;
         createCardAttraction(attraction);
 
-        startCard = 0;
+        startIndexCard = 0;
         i = -1;
-        endCard = 3 - countCardOnPage;
+        endIndexCard = numberCardOnPage - countCardOnPage;
 
-        if (countCardOnPage === 3) {
-          endCard = 3;
+        if (countCardOnPage === numberCardOnPage) {
+          endIndexCard = numberCardOnPage;
           return;
         }
       } else {
@@ -296,8 +299,8 @@
         createCardAttraction(attraction);
       }
     }
-    startCard = endCard;
-    endCard += 3;
+    startIndexCard = endIndexCard;
+    endIndexCard += numberCardOnPage;
   }
 
   function createCardAttraction(attraction) {
@@ -396,21 +399,21 @@
 
     tableEl.append(rowHeader);
 
-    if (endIndex > attractions.length) {
-      endIndex = attractions.length;
+    if (endRowIndex > attractions.length) {
+      endRowIndex = attractions.length;
     }
-    for (let i = startIndex; i < endIndex; i++) {
+    for (let i = startRowIndex; i < endRowIndex; i++) {
       const row = document.createElement('tr');
       const attraction = attractions[i];
-      if (attractions.length - 1 === i && countAttractionInTable != 5) {
+      if (attractions.length - 1 === i && countAttractionInTable != numberRowInTable) {
         countAttractionInTable++;
         addRow(tableEl, row, attraction);
-        startIndex = 0;
+        startRowIndex = 0;
         i = -1;
-        endIndex = 5 - countAttractionInTable;
+        endRowIndex = numberRowInTable - countAttractionInTable;
 
-        if (countAttractionInTable === 5) {
-          endIndex = 5;
+        if (countAttractionInTable === numberRowInTable) {
+          endRowIndex = numberRowInTable;
           return;
         }
       } else {
@@ -418,8 +421,8 @@
         addRow(tableEl, row, attraction);
       }
     }
-    startIndex = endIndex;
-    endIndex += 5;
+    startRowIndex = endRowIndex;
+    endRowIndex += numberRowInTable;
     tablesPriceEl.append(tableEl);
     setTimeout(() => {
       tableEl.classList.add('table-price-hide');
